@@ -129,11 +129,31 @@ const App: React.FC = () => {
       case 'date':
         setTerminalOutput(prev => [...prev, new Date().toString()]);
         break;
-      case 'help':
-        setTerminalOutput(prev => [...prev, 'Available commands: ls, pwd, whoami, date, help, clear']);
-        break;
       case 'clear':
         setTerminalOutput([]);
+      case 'cat':
+        setTerminalOutput(prev => [...prev, 'Usage: cat <filename>']);
+        break;
+      case 'echo':
+        setTerminalOutput(prev => [...prev, command.slice(5)]);
+        break;
+      case 'uname':
+        setTerminalOutput(prev => [...prev, 'AI-OS']);
+        break;
+      case 'ps':
+        setTerminalOutput(prev => [...prev, 'PID TTY          TIME CMD', '  1 ?        00:00:00 init', '  2 ?        00:00:00 ai-agent']);
+        break;
+      case 'top':
+        setTerminalOutput(prev => [...prev, 'top - 00:00:00 up 0 min,  1 user,  load average: 0.00, 0.00, 0.00', 'Tasks:   2 total,   1 running,   1 sleeping,   0 stopped,   0 zombie', '%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni, 100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st', 'MiB Mem :   7950.1 total,   7365.9 free,    257.3 used,    326.9 buff/cache', 'MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   7439.0 avail Mem ']);
+        break;
+      case 'df':
+        setTerminalOutput(prev => [...prev, 'Filesystem     1K-blocks      Used Available Use% Mounted on', '/dev/sda1      61255492   2498292  55474816   5% /']);
+        break;
+      case 'free':
+        setTerminalOutput(prev => [...prev, '              total        used        free      shared  buff/cache   available', 'Mem:        8141880     263476    7542636       1024     335768    7623636', 'Swap:       2097152          0    2097152']);
+        break;
+      case 'help':
+        setTerminalOutput(prev => [...prev, 'Available commands: ls, pwd, whoami, date, help, clear', 'cat, echo, uname, top, df, free']);
         break;
       default:
         setTerminalOutput(prev => [...prev, `Command not found: ${command}`]);
@@ -152,7 +172,6 @@ const App: React.FC = () => {
         "",
         "Welcome to the AI Agent Environment",
         "Type 'help' for a list of commands.",
-        "> "
       ];
 
       bootSequence.forEach((line, index) => {
@@ -228,7 +247,8 @@ const App: React.FC = () => {
   );
 
   const renderTerminal = () => (
-    <div className="bg-black text-green-400 p-4 rounded-lg h-96 flex flex-col">
+    <div className="bg-black text-green-400 p-4 rounded-lg h-[32rem] flex flex-col">
+
       <div ref={terminalRef} className="flex-1 overflow-y-auto font-mono mb-2">
         {terminalOutput.map((line, index) => (
           <div key={index}>{line}</div>
@@ -249,7 +269,7 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-16">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
           {isConnected ? (
@@ -283,23 +303,6 @@ const App: React.FC = () => {
                 </button>
               ))}
             </div>
-          </div>
-        ) : step === configOptions.length ? (
-          <div>
-            <div className="flex items-center mb-4">
-              <FaGithub className="w-6 h-6" />
-              <h2 className="text-xl font-semibold ml-2">GitHub Repository</h2>
-            </div>
-            <input
-              type="text"
-              value={githubRepo}
-              onChange={handleGithubRepoChange}
-              placeholder="Enter GitHub repository URL"
-              className="w-full p-2 border border-gray-300 rounded-md mb-4"
-            />
-            <p className="text-sm text-gray-600 mb-4">
-              Enter the URL of the GitHub repository containing your agent code.
-            </p>
           </div>
         ) : (
           <div>
