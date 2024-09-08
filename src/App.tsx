@@ -247,7 +247,7 @@ const App: React.FC = () => {
   );
 
   const renderTerminal = () => (
-    <div className="bg-black text-green-400 p-4 rounded-lg h-[32rem] flex flex-col">
+    <div className="bg-black text-green-400 p-4 rounded-lg h-[48rem] w-[64rem] flex flex-col">
 
       <div ref={terminalRef} className="flex-1 overflow-y-auto font-mono mb-2">
         {terminalOutput.map((line, index) => (
@@ -269,8 +269,8 @@ const App: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center py-16">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full">
+    <div className="min-h-screen bg-gray-300 flex flex-row items-center justify-center py-16">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-6xl w-full">
         <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
           {isConnected ? (
             <><FaTerminal className="inline-block mr-2" /> AI Agent Terminal</>
